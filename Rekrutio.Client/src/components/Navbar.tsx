@@ -15,7 +15,10 @@ export function Navbar() {
           <NavLink to="/companies" className="nav-link">
             Companies
           </NavLink>
-          <NavLink to="/job-applications" className="nav-link">
+          <NavLink to="/companies/new" className="nav-link">
+            New company
+          </NavLink>
+          <NavLink to="/applications" className="nav-link">
             Applications
           </NavLink>
           <NavLink to="/job-applications/new" className="nav-link">

@@ -1,11 +1,17 @@
 import { apiClient } from './apiClient'
 import type {
   ApplicationStatusHistory,
+  CreateJobApplicationRequest,
   JobApplication,
 } from '../types/jobApplication'
 
 export async function getJobApplications() {
   const response = await apiClient.get<JobApplication[]>('/jobapplications')
+  return response.data
+}
+
+export async function createJobApplication(request: CreateJobApplicationRequest) {
+  const response = await apiClient.post<JobApplication>('/jobapplications', request)
   return response.data
 }
 

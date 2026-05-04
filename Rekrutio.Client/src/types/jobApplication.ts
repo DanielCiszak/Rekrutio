@@ -22,6 +22,19 @@ export type JobApplication = {
   updatedAt: string | null
 }
 
+export type CreateJobApplicationRequest = {
+  companyId: string
+  positionTitle: string
+  jobAdvertUrl: string | null
+  location: string | null
+  salaryMin: number | null
+  salaryMax: number | null
+  contractType: ContractType
+  workMode: WorkMode
+  status: ApplicationStatus
+  notes: string | null
+}
+
 export type ApplicationStatusHistory = {
   id: string
   jobApplicationId: string
