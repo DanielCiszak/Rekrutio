@@ -354,6 +354,32 @@ textarea {
   background: var(--border);
 }
 
+.button-danger {
+  background: var(--danger);
+}
+
+.button-danger:hover {
+  background: #9f2424;
+}
+
+.filter-panel {
+  align-items: end;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(220px, 1.4fr) repeat(4, minmax(140px, 1fr));
+  margin-bottom: 18px;
+  padding: 16px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  grid-column: 1 / -1;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -373,5 +399,13 @@ textarea {
 
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .filter-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-actions {
+    flex-direction: column;
   }
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
+  deleteJobApplication,
   getJobApplication,
   getJobApplicationStatusHistory,
 } from '../api/jobApplicationsApi'
@@ -20,9 +21,11 @@ import {
 
 export function JobApplicationDetailsPage() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [application, setApplication] = useState<JobApplication | null>(null)
   const [statusHistory, setStatusHistory] = useState<ApplicationStatusHistory[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -50,6 +53,31 @@ export function JobApplicationDetailsPage() {
     void loadDetails(id)
   }, [id])
 
+  async function handleDelete() {
+    if (!application) {
+      return
+    }
+
+    const confirmed = window.confirm(
+      `Delete the application for "${application.positionTitle}" at ${application.companyName}?`,
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    setIsDeleting(true)
+    setError(null)
+
+    try {
+      await deleteJobApplication(application.id)
+      navigate('/applications')
+    } catch {
+      setError('Could not delete job application. Check the API and try again.')
+      setIsDeleting(false)
+    }
+  }
+
   if (isLoading) {
     return <LoadingSpinner label="Loading application details..." />
   }
@@ -73,6 +101,14 @@ export function JobApplicationDetailsPage() {
           <Link className="button" to={`/applications/${application.id}/edit`}>
             Edit
           </Link>
+          <button
+            className="button button-danger"
+            disabled={isDeleting}
+            type="button"
+            onClick={handleDelete}
+          >
+            {isDeleting ? 'Deleting...' : 'Delete'}
+          </button>
           <Link className="button button-secondary" to="/applications">
             Back to list
           </Link>

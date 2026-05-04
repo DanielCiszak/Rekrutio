@@ -4,6 +4,14 @@ export type ContractType = 0 | 1 | 2 | 3 | 4 | 5
 
 export type WorkMode = 0 | 1 | 2 | 3
 
+export type JobApplicationFilters = {
+  searchTerm?: string
+  status?: ApplicationStatus
+  contractType?: ContractType
+  workMode?: WorkMode
+  location?: string
+}
+
 export type JobApplication = {
   id: string
   companyId: string

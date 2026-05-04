@@ -2,12 +2,15 @@ import { apiClient } from './apiClient'
 import type {
   ApplicationStatusHistory,
   CreateJobApplicationRequest,
+  JobApplicationFilters,
   JobApplication,
   UpdateJobApplicationRequest,
 } from '../types/jobApplication'
 
-export async function getJobApplications() {
-  const response = await apiClient.get<JobApplication[]>('/jobapplications')
+export async function getJobApplications(filters: JobApplicationFilters = {}) {
+  const response = await apiClient.get<JobApplication[]>('/jobapplications', {
+    params: filters,
+  })
   return response.data
 }
 
@@ -21,6 +24,10 @@ export async function updateJobApplication(
   request: UpdateJobApplicationRequest,
 ) {
   await apiClient.put(`/jobapplications/${id}`, request)
+}
+
+export async function deleteJobApplication(id: string) {
+  await apiClient.delete(`/jobapplications/${id}`)
 }
 
 export async function getJobApplication(id: string) {
