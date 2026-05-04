@@ -73,6 +73,35 @@ public class JobApplicationsController(AppDbContext dbContext) : ControllerBase
         return Ok(jobApplication);
     }
 
+    [HttpGet("{id:guid}/status-history")]
+    public async Task<ActionResult<IEnumerable<ApplicationStatusHistoryResponseDto>>> GetStatusHistory(Guid id)
+    {
+        var jobApplicationExists = await dbContext.JobApplications
+            .AsNoTracking()
+            .AnyAsync(jobApplication => jobApplication.Id == id);
+
+        if (!jobApplicationExists)
+        {
+            return NotFound();
+        }
+
+        var statusHistory = await dbContext.ApplicationStatusHistory
+            .AsNoTracking()
+            .Where(statusHistory => statusHistory.JobApplicationId == id)
+            .OrderBy(statusHistory => statusHistory.ChangedAt)
+            .Select(statusHistory => new ApplicationStatusHistoryResponseDto
+            {
+                Id = statusHistory.Id,
+                JobApplicationId = statusHistory.JobApplicationId,
+                Status = statusHistory.Status,
+                ChangedAt = statusHistory.ChangedAt,
+                Notes = statusHistory.Notes
+            })
+            .ToListAsync();
+
+        return Ok(statusHistory);
+    }
+
     [HttpPost]
     public async Task<ActionResult<JobApplicationResponseDto>> CreateJobApplication(CreateJobApplicationDto request)
     {
@@ -108,6 +137,15 @@ public class JobApplicationsController(AppDbContext dbContext) : ControllerBase
         };
 
         dbContext.JobApplications.Add(jobApplication);
+        dbContext.ApplicationStatusHistory.Add(new ApplicationStatusHistory
+        {
+            JobApplicationId = jobApplication.Id,
+            JobApplication = jobApplication,
+            Status = jobApplication.Status,
+            ChangedAt = DateTime.UtcNow,
+            Notes = jobApplication.Notes
+        });
+
         await dbContext.SaveChangesAsync();
 
         var response = ToResponseDto(jobApplication);
@@ -140,6 +178,8 @@ public class JobApplicationsController(AppDbContext dbContext) : ControllerBase
             return NotFound();
         }
 
+        var previousStatus = jobApplication.Status;
+
         jobApplication.CompanyId = request.CompanyId;
         jobApplication.PositionTitle = request.PositionTitle.Trim();
         jobApplication.JobAdvertUrl = NormalizeOptionalText(request.JobAdvertUrl);
@@ -151,6 +191,17 @@ public class JobApplicationsController(AppDbContext dbContext) : ControllerBase
         jobApplication.Status = request.Status;
         jobApplication.Notes = NormalizeOptionalText(request.Notes);
         jobApplication.UpdatedAt = DateTime.UtcNow;
+
+        if (previousStatus != jobApplication.Status)
+        {
+            dbContext.ApplicationStatusHistory.Add(new ApplicationStatusHistory
+            {
+                JobApplicationId = jobApplication.Id,
+                Status = jobApplication.Status,
+                ChangedAt = DateTime.UtcNow,
+                Notes = jobApplication.Notes
+            });
+        }
 
         await dbContext.SaveChangesAsync();
 
