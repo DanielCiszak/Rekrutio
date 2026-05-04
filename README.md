@@ -7,6 +7,7 @@ The project currently includes an ASP.NET Core Web API backend and a React + Typ
 ## Tech Stack
 
 **Backend**
+
 - ASP.NET Core Web API
 - C#
 - .NET 8
@@ -15,6 +16,7 @@ The project currently includes an ASP.NET Core Web API backend and a React + Typ
 - Swagger / OpenAPI
 
 **Frontend**
+
 - React
 - TypeScript
 - Vite
@@ -36,17 +38,23 @@ The project currently includes an ASP.NET Core Web API backend and a React + Typ
 - Edit and delete job application functionality
 - CORS configured for local React development
 
-## Screenshots
+### Screenshots
 
-Screenshots can be added here as the UI stabilizes.
+### Dashboard
 
-| Dashboard | Applications |
-| --- | --- |
-| `docs/screenshots/dashboard.png` | `docs/screenshots/applications.png` |
+![Dashboard](docs/screenshots/dashboard.png)
 
-| Details | Create Application |
-| --- | --- |
-| `docs/screenshots/application-details.png` | `docs/screenshots/create-application.png` |
+### Applications
+
+![Applications](docs/screenshots/applications.png)
+
+### Application Details
+
+![Application Details](docs/screenshots/application-details.png)
+
+### Create Application
+
+![Create Application](docs/screenshots/create-application.png)
 
 ## Backend Setup
 
@@ -117,24 +125,24 @@ dotnet tool install --global dotnet-ef
 
 ### Companies
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| GET | `/api/companies` | Get all companies |
-| GET | `/api/companies/{id}` | Get one company |
-| POST | `/api/companies` | Create a company |
-| PUT | `/api/companies/{id}` | Update a company |
-| DELETE | `/api/companies/{id}` | Delete a company |
+| Method | Endpoint              | Description       |
+| ------ | --------------------- | ----------------- |
+| GET    | `/api/companies`      | Get all companies |
+| GET    | `/api/companies/{id}` | Get one company   |
+| POST   | `/api/companies`      | Create a company  |
+| PUT    | `/api/companies/{id}` | Update a company  |
+| DELETE | `/api/companies/{id}` | Delete a company  |
 
 ### Job Applications
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| GET | `/api/jobapplications` | Get job applications with optional filters |
-| GET | `/api/jobapplications/{id}` | Get one job application |
-| POST | `/api/jobapplications` | Create a job application |
-| PUT | `/api/jobapplications/{id}` | Update a job application |
-| DELETE | `/api/jobapplications/{id}` | Delete a job application |
-| GET | `/api/jobapplications/{id}/status-history` | Get status history for one job application |
+| Method | Endpoint                                   | Description                                |
+| ------ | ------------------------------------------ | ------------------------------------------ |
+| GET    | `/api/jobapplications`                     | Get job applications with optional filters |
+| GET    | `/api/jobapplications/{id}`                | Get one job application                    |
+| POST   | `/api/jobapplications`                     | Create a job application                   |
+| PUT    | `/api/jobapplications/{id}`                | Update a job application                   |
+| DELETE | `/api/jobapplications/{id}`                | Delete a job application                   |
+| GET    | `/api/jobapplications/{id}/status-history` | Get status history for one job application |
 
 Supported query parameters for `GET /api/jobapplications`:
 
@@ -147,9 +155,9 @@ Supported query parameters for `GET /api/jobapplications`:
 
 ### Dashboard
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| GET | `/api/dashboard/summary` | Get dashboard statistics and latest applications |
+| Method | Endpoint                 | Description                                      |
+| ------ | ------------------------ | ------------------------------------------------ |
+| GET    | `/api/dashboard/summary` | Get dashboard statistics and latest applications |
 
 ## Future Improvements
 
