@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
@@ -120,7 +121,20 @@ export function JobApplicationDetailsPage() {
         <DetailCard label="Company" value={application.companyName} />
         <DetailCard label="Status" value={statusLabel(application.status)} />
         <DetailCard label="Location" value={application.location ?? 'Not set'} />
-        <DetailCard label="Job advert URL" value={application.jobAdvertUrl ?? 'Not set'} />
+        <DetailCard label="Job advert URL">
+          {application.jobAdvertUrl ? (
+            <a
+              className="detail-link"
+              href={application.jobAdvertUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {application.jobAdvertUrl}
+            </a>
+          ) : (
+            'Not set'
+          )}
+        </DetailCard>
         <DetailCard label="Contract" value={contractTypeLabel(application.contractType)} />
         <DetailCard label="Work mode" value={workModeLabel(application.workMode)} />
         <DetailCard
@@ -172,14 +186,15 @@ export function JobApplicationDetailsPage() {
 
 type DetailCardProps = {
   label: string
-  value: string
+  value?: string
+  children?: ReactNode
 }
 
-function DetailCard({ label, value }: DetailCardProps) {
+function DetailCard({ children, label, value }: DetailCardProps) {
   return (
     <article className="card">
       <span className="stat-label">{label}</span>
-      <strong className="stat-value">{value}</strong>
+      <strong className="stat-value detail-value">{children ?? value}</strong>
     </article>
   )
 }

@@ -172,6 +172,20 @@ textarea {
   font-weight: 750;
 }
 
+.detail-value {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.detail-link {
+  color: var(--primary-dark);
+  font-size: 20px;
+  line-height: 1.35;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .section-title {
   margin: 0 0 14px;
   font-size: 20px;
