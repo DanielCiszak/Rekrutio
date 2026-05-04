@@ -11,10 +11,55 @@ namespace Rekrutio.Api.Controllers;
 public class JobApplicationsController(AppDbContext dbContext) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<JobApplicationResponseDto>>> GetJobApplications()
+    public async Task<ActionResult<IEnumerable<JobApplicationResponseDto>>> GetJobApplications(
+        [FromQuery] ApplicationStatus? status,
+        [FromQuery] ContractType? contractType,
+        [FromQuery] WorkMode? workMode,
+        [FromQuery] Guid? companyId,
+        [FromQuery] string? location,
+        [FromQuery] string? searchTerm)
     {
-        var jobApplications = await dbContext.JobApplications
-            .AsNoTracking()
+        var query = dbContext.JobApplications.AsNoTracking();
+
+        if (status.HasValue)
+        {
+            query = query.Where(jobApplication => jobApplication.Status == status.Value);
+        }
+
+        if (contractType.HasValue)
+        {
+            query = query.Where(jobApplication => jobApplication.ContractType == contractType.Value);
+        }
+
+        if (workMode.HasValue)
+        {
+            query = query.Where(jobApplication => jobApplication.WorkMode == workMode.Value);
+        }
+
+        if (companyId.HasValue)
+        {
+            query = query.Where(jobApplication => jobApplication.CompanyId == companyId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(location))
+        {
+            var normalizedLocation = location.Trim();
+            query = query.Where(jobApplication =>
+                jobApplication.Location != null &&
+                jobApplication.Location.Contains(normalizedLocation));
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var normalizedSearchTerm = searchTerm.Trim();
+            query = query.Where(jobApplication =>
+                jobApplication.PositionTitle.Contains(normalizedSearchTerm) ||
+                jobApplication.Company.Name.Contains(normalizedSearchTerm) ||
+                (jobApplication.Location != null && jobApplication.Location.Contains(normalizedSearchTerm)) ||
+                (jobApplication.Notes != null && jobApplication.Notes.Contains(normalizedSearchTerm)));
+        }
+
+        var jobApplications = await query
             .OrderByDescending(jobApplication => jobApplication.CreatedAt)
             .Select(jobApplication => new JobApplicationResponseDto
             {
