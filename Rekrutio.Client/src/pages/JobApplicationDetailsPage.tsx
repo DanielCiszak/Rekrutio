@@ -69,14 +69,22 @@ export function JobApplicationDetailsPage() {
           <h1 className="page-title">{application.positionTitle}</h1>
           <p className="page-description">{application.companyName}</p>
         </div>
-        <Link className="button" to="/job-applications">
-          Back to list
-        </Link>
+        <div className="form-actions">
+          <Link className="button" to={`/applications/${application.id}/edit`}>
+            Edit
+          </Link>
+          <Link className="button button-secondary" to="/applications">
+            Back to list
+          </Link>
+        </div>
       </div>
 
       <section className="grid details-grid">
+        <DetailCard label="Position" value={application.positionTitle} />
+        <DetailCard label="Company" value={application.companyName} />
         <DetailCard label="Status" value={statusLabel(application.status)} />
         <DetailCard label="Location" value={application.location ?? 'Not set'} />
+        <DetailCard label="Job advert URL" value={application.jobAdvertUrl ?? 'Not set'} />
         <DetailCard label="Contract" value={contractTypeLabel(application.contractType)} />
         <DetailCard label="Work mode" value={workModeLabel(application.workMode)} />
         <DetailCard
@@ -84,6 +92,10 @@ export function JobApplicationDetailsPage() {
           value={salaryRange(application.salaryMin, application.salaryMax)}
         />
         <DetailCard label="Created" value={formatDate(application.createdAt)} />
+        <DetailCard
+          label="Updated"
+          value={application.updatedAt ? formatDate(application.updatedAt) : 'Not updated'}
+        />
       </section>
 
       <section className="card" style={{ marginTop: 16 }}>

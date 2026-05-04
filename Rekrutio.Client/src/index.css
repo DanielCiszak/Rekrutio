@@ -210,6 +210,19 @@ textarea {
   border-bottom: 0;
 }
 
+.clickable-row:hover {
+  background: #f8fbff;
+}
+
+.text-link {
+  color: var(--primary-dark);
+  font-weight: 750;
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
 .muted {
   color: var(--muted);
 }

@@ -64,13 +64,14 @@ export function JobApplicationsPage() {
               <th>Work mode</th>
               <th>Salary</th>
               <th>Created</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {applications.map((application) => (
-              <tr key={application.id}>
+              <tr className="clickable-row" key={application.id}>
                 <td>
-                  <Link to={`/job-applications/${application.id}`}>
+                  <Link to={`/applications/${application.id}`}>
                     {application.positionTitle}
                   </Link>
                 </td>
@@ -83,6 +84,11 @@ export function JobApplicationsPage() {
                 <td>{workModeLabel(application.workMode)}</td>
                 <td>{salaryRange(application.salaryMin, application.salaryMax)}</td>
                 <td>{formatDate(application.createdAt)}</td>
+                <td>
+                  <Link className="text-link" to={`/applications/${application.id}`}>
+                    View
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>

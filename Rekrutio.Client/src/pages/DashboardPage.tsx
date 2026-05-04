@@ -78,7 +78,7 @@ export function DashboardPage() {
                 {summary.latestApplications.map((application) => (
                   <tr key={application.id}>
                     <td>
-                      <Link to={`/job-applications/${application.id}`}>
+                      <Link to={`/applications/${application.id}`}>
                         {application.positionTitle}
                       </Link>
                     </td>

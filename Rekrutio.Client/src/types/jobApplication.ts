@@ -35,6 +35,8 @@ export type CreateJobApplicationRequest = {
   notes: string | null
 }
 
+export type UpdateJobApplicationRequest = CreateJobApplicationRequest
+
 export type ApplicationStatusHistory = {
   id: string
   jobApplicationId: string
