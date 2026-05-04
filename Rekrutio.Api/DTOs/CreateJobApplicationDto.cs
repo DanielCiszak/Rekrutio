@@ -1,14 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using Rekrutio.Api.Models;
 
-namespace Rekrutio.Api.Models;
+namespace Rekrutio.Api.DTOs;
 
-public class JobApplication
+public class CreateJobApplicationDto
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-
+    [Required]
     public Guid CompanyId { get; set; }
-
-    public Company Company { get; set; } = null!;
 
     [Required]
     [MaxLength(200)]
@@ -20,8 +18,10 @@ public class JobApplication
     [MaxLength(200)]
     public string? Location { get; set; }
 
+    [Range(0, 9999999)]
     public decimal? SalaryMin { get; set; }
 
+    [Range(0, 9999999)]
     public decimal? SalaryMax { get; set; }
 
     public ContractType ContractType { get; set; } = ContractType.Unknown;
@@ -30,16 +30,6 @@ public class JobApplication
 
     public ApplicationStatus Status { get; set; } = ApplicationStatus.Planned;
 
-    public DateTime? AppliedAt { get; set; }
-
     [MaxLength(2000)]
     public string? Notes { get; set; }
-
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    public DateTime? UpdatedAt { get; set; }
-
-    public ICollection<ApplicationStatusHistory> StatusHistory { get; set; } = new List<ApplicationStatusHistory>();
-
-    public ICollection<JobApplicationSkill> JobApplicationSkills { get; set; } = new List<JobApplicationSkill>();
 }
